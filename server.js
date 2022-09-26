@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
     port: 3306,
     insecureAuth: true,
     user: "root",
-    password: "C0lemeonthepanny$ty$",
+    password: "root",
     database: "employeeDB"
   });
   
@@ -29,7 +29,7 @@ function runQuestions() {
           "View departments",
           "View roles",
           "View employees",
-          "Update employee role",
+          "Update employee info",
           "Quit"
         ],
         message: "What would you like to do?",
@@ -40,7 +40,7 @@ function runQuestions() {
   
         switch (result.option) {
           case "View departments":
-            // viewDepartments();
+            viewDepartments();
             break;
           case "View roles":
             viewRoles();
@@ -57,8 +57,8 @@ function runQuestions() {
           case "Add an employee":
             addEmployee();
             break;
-          case "Update employee role":
-            // updateEmployee();
+          case "Update employee info":
+            updateEmployee();
             break;
           default:
             quit();
@@ -95,7 +95,7 @@ function addEmployee() {
     .then(function(data) {
 
       
-      connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [data.first, data.name, data.role, data.manager], function(err, res) {
+      connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [data.first, data.last, data.role, data.manager], function(err, res) {
         if (err) throw err;
         console.table(res);
         runQuestions();
@@ -168,6 +168,38 @@ function viewRoles() {
   });
 }
 
+function viewDepartments() {
+  let query = "SELECT * FROM department";
+  connection.query(query, function(err, data) {
+    if (err) throw err;
+    console.table(data);
+    runQuestions();
+  });
+}
+
+function updateEmployee() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Which employee would you like to update? Please provide the ID:",
+        name: "employee"
+      },
+
+      {
+        type: "input",
+        message: "What new role do they have?",
+        name: "role"
+      }
+    ])
+    .then(function(data) {
+      connection.query("UPDATE employee SET role_id=? WHERE id= ?",[data.role, data.employee],function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        runQuestions();
+      });
+    });
+}
 
 function quit() {
   connection.end();

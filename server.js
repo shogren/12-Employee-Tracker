@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
     port: 3306,
     insecureAuth: true,
     user: "root",
-    password: "C0lemeonthepanny$ty$",
+    password: "root",
     database: "employeeDB"
   });
   
@@ -73,11 +73,11 @@ function addDepartment() {
       
         type: "input",
         message: "What is the name of the department?",
-        name: "deptName"
+        name: "dept"
 
     }).then(function(data){
 
-        connection.query("INSERT INTO department (name) VALUES (?)", [data.deptName] , function(err, res) {
+        connection.query("INSERT INTO department (name) VALUES (?)", [data.dept] , function(err, res) {
             if (err) throw err;
             console.table(res)
             runQuestions()
@@ -91,23 +91,23 @@ function addRole() {
         {
           type: "input",
           message: "What's the name of the role?",
-          name: "roleName"
+          name: "role"
         },
         {
           type: "input",
           message: "What is the salary for this role?",
-          name: "salaryTotal"
+          name: "salary"
         },
         {
           type: "input",
           message: "What is the department id number?",
-          name: "deptID"
+          name: "dept"
         }
       ])
       .then(function(data) {
   
   
-        connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [data.roleName, data.salaryTotal, data.deptID], function(err, res) {
+        connection.query("INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)", [data.role, data.salary, data.dept], function(err, res) {
           if (err) throw err;
           console.table(res);
           runQuestions();

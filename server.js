@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
     port: 3306,
     insecureAuth: true,
     user: "root",
-    password: "root",
+    password: "C0lemeonthepanny$ty$",
     database: "employeeDB"
   });
   
@@ -42,10 +42,10 @@ function runQuestions() {
           case "View departments":
             // viewDepartments();
             break;
-          case "View all roles":
-            // viewRoles();
+          case "View roles":
+            viewRoles();
             break;
-          case "View all employees":
+          case "View employees":
             viewEmployees();
             break;
           case "Add a department":
@@ -150,13 +150,26 @@ function addRole() {
       });
   }
 
+function viewEmployees() {
+  let query = "SELECT * FROM employee";
+  connection.query(query, function(err, data) {
+    if (err) throw err;
+    console.table(data);
+    runQuestions();
+  });
+}
+
+function viewRoles() {
+  let query = "SELECT * FROM role";
+  connection.query(query, function(err, data) {
+    if (err) throw err;
+    console.table(data);
+    runQuestions();
+  });
+}
 
 
-  function viewEmployees() {
-    let query = "SELECT * FROM employee";
-    connection.query(query, function(err, data) {
-      if (err) throw err;
-      console.table(data);
-      runQuestions();
-    });
+function quit() {
+  connection.end();
+  process.exit();
   }

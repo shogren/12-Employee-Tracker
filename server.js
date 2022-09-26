@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
-const cTable = require("console.table");
+const table = require("console.table");
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -46,7 +46,7 @@ function runQuestions() {
             // viewRoles();
             break;
           case "View all employees":
-            // viewEmployees();
+            viewEmployees();
             break;
           case "Add a department":
             addDepartment();
@@ -55,7 +55,7 @@ function runQuestions() {
             addRole();
             break;
           case "Add an employee":
-            // addEmployee();
+            addEmployee();
             break;
           case "Update employee role":
             // updateEmployee();
@@ -67,6 +67,41 @@ function runQuestions() {
   }
 
 // the functions that run depending on user choice
+
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What's the first name of the employee?",
+        name: "first"
+      },
+      {
+        type: "input",
+        message: "What's the last name of the employee?",
+        name: "last"
+      },
+      {
+        type: "input",
+        message: "What is the employee's role id number?",
+        name: "role"
+      },
+      {
+        type: "input",
+        message: "What is the manager id number?",
+        name: "manager"
+      }
+    ])
+    .then(function(data) {
+
+      
+      connection.query("INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)", [data.first, data.name, data.role, data.manager], function(err, res) {
+        if (err) throw err;
+        console.table(res);
+        runQuestions();
+      });
+    });
+}
 
 function addDepartment() {
     inquirer.prompt({
@@ -80,7 +115,7 @@ function addDepartment() {
         connection.query("INSERT INTO department (name) VALUES (?)", [data.dept] , function(err, res) {
             if (err) throw err;
             console.table(res)
-            runQuestions()
+            runQuestions();
     })
     })
 }
@@ -100,7 +135,7 @@ function addRole() {
         },
         {
           type: "input",
-          message: "What is the department id number?",
+          message: "What is the department number?",
           name: "dept"
         }
       ])
@@ -113,4 +148,15 @@ function addRole() {
           runQuestions();
         });
       });
+  }
+
+
+
+  function viewEmployees() {
+    let query = "SELECT * FROM employee";
+    connection.query(query, function(err, data) {
+      if (err) throw err;
+      console.table(data);
+      runQuestions();
+    });
   }

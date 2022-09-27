@@ -20,4 +20,4 @@ Here is a screenshot of the finished site that was created with this tool:
 
 ## Additional Notes
 
-* Here is a link to the [video walkthrough](hhttps://watch.screencastify.com/v/NbyoJmPBV1N9ngh7mspq)
+* Here is a link to the [video walkthrough](https://watch.screencastify.com/v/NbyoJmPBV1N9ngh7mspq)

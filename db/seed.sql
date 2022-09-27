@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS employeesDB;
+
 USE employeeDB;
 
 INSERT INTO department (name)
@@ -16,4 +18,7 @@ VALUES
 ("Legal Team Lead", 250000, 4);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Jon", "Shogren", 1, 3);
+VALUES 
+("Jon", "Shogren", 1, 3),
+("Han", "Solo", 2, 3),
+("Darth", "Vader", 1, 1);
